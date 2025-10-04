@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inkphora / Thymiko – Private Beta</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Inkphora / Thymiko</h1>
+    <button id="betaBtn">Join Beta Test</button>
+  </header>
+
+  <section id="beta-box" style="display:none; padding:2rem;">
+    <h2>Join the Private Beta</h2>
+    <form id="beta-form">
+      <input type="email" name="email" placeholder="Enter your email" required>
+      <input type="checkbox" name="consent" required>
+      <label for="consent">I consent to the processing of my data for the purpose of participating in the Inkphora Beta test (GDPR compliant).</label>
+      <input type="text" name="hp" style="display:none" tabindex="-1" autocomplete="off">
+      <button type="submit">Join Beta</button>
+    </form>
+  </section>
+
+  <footer>
+    © 2025 Inkphora • Prototype: Thymiko • <a href="/privacy.html">Privacy</a>
+  </footer>
+
+  <script>
+    // Show beta box
+    document.getElementById('betaBtn').addEventListener('click', () => {
+      document.getElementById('beta-box').style.display = 'block';
+      document.getElementById('betaBtn').style.display = 'none';
+    });
+
+    // Handle form submission
+    document.addEventListener('DOMContentLoaded', function () {
+      const form = document.getElementById('beta-form');
+      const msg = document.createElement('p');
+      msg.id = 'beta-msg';
+      msg.style.marginTop = '1rem';
+      msg.style.fontSize = '0.95rem';
+      msg.style.color = '#FAFAFC';
+      form.appendChild(msg);
+
+      form.addEventListener('submit', async function (e) {
+        e.preventDefault();
+        msg.textContent = 'Submitting...';
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData.entries());
+        data.consent = form.querySelector('input[name="consent"]').checked;
+
+        try {
+          const res = await fetch('/.netlify/functions/subscribe', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data),
+          });
+          const json = await res.json();
+          if (json.ok) {
+            msg.innerHTML =
+              'Thanks for joining the private beta! Please check your inbox for our welcome email.<br><strong>Bitte überprüfe dein Postfach.</strong>';
+            form.reset();
+          } else {
+            msg.textContent = 'Oops! Something went wrong. Please try again.';
+          }
+        } catch (err) {
+          msg.textContent = 'Connection error. Please try again later.';
+          console.error(err);
+        }
+      });
+    });
+  </script>
+</body>
+</html>
