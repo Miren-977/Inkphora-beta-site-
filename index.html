@@ -1,135 +1,133 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Inkphora / Thymiko — Private Beta</title>
-  <link rel="icon" href="/assets/favicon-v10.png">
-  <link rel="stylesheet" href="style.css?v=1">
-  <meta name="description" content="Join the private beta of Thymiko / Inkphora. Register your email to get early access and 3 months free at launch.">
+
+  <!-- Icons & OG -->
+  <link rel="icon" href="/favicon-v10.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/favicon-v10.png" sizes="512x512">
+  <link rel="apple-touch-icon" href="/favicon-v10.png">
+  <meta property="og:image" content="/assets/inkphora-logo-v10.png" />
+
+  <!-- Your existing CSS -->
+  <link rel="stylesheet" href="/style.css?v=3">
 </head>
 <body>
-  <header class="container header">
+  <!-- Top bar -->
+  <header class="wrap">
     <div class="brand">
-      <img src="/assets/inkphora-logo.png" alt="Inkphora" class="logo">
-      <span class="plus">/</span>
-      <img src="/assets/thymiko-logo.png" alt="Thymiko" class="logo">
+      <img src="/assets/inkphora-logo-v10.png" alt="Inkphora" class="logo" style="height:64px;width:auto" />
     </div>
-    <nav class="nav">
-      <a href="#about">About</a>
+    <nav>
+      <a href="#waitlist">Join Beta</a>
       <a href="/privacy.html">Privacy</a>
     </nav>
   </header>
 
-  <main class="container">
-    <section class="hero">
-      <h1>Join the Private Beta</h1>
-      <p class="sub">Register your email to get early access to Thymiko / Inkphora — <strong>3 months free</strong> at launch.</p>
-      <div class="cta">
-        <a class="btn btn-primary" href="#join">Join & Get 3 Months Free</a>
-      </div>
-    </section>
-
-    <section id="about" class="grid">
-      <div class="card indigo">
-        <h3>Draw your emotions</h3>
-        <p>Sketch strokes. Thymiko turns them into empathic reflections.</p>
-      </div>
-      <div class="card orange">
-        <h3>Poetic output</h3>
-        <p>Receive a compact, human‑tone poem that mirrors your mood.</p>
-      </div>
-      <div class="card soft">
-        <h3>Lightweight ritual</h3>
-        <p>60–120 seconds per session. Private, calming, yours.</p>
-      </div>
-    </section>
-
-    <section id="join" class="join card soft">
-      <h2>Get early access</h2>
-      <p class="muted">We’ll email you the next steps. No spam. Unsubscribe anytime.</p>
-      <form id="beta-form" class="form" novalidate>
-        <label class="sr-only" for="email">Email</label>
-        <input id="email" name="email" type="email" placeholder="you@example.com" required>
-
-        <label class="check">
-          <input type="checkbox" name="consent" required>
-          <span>I consent to the processing of my data for the purpose of participating in the Inkphora Beta test (GDPR compliant).</span>
-        </label>
-
-        <!-- Honeypot -->
-        <input type="text" name="hp" autocomplete="off" tabindex="-1" class="hp">
-
-        <button type="submit" class="btn btn-primary">Join Beta</button>
-        <p id="beta-msg" class="msg" aria-live="polite"></p>
-      </form>
-      <p class="tiny">By signing up, you’ll reserve your <strong>3 months free</strong> for the public launch.</p>
-    </section>
+  <!-- Hero -->
+  <main class="wrap hero" style="text-align:center;padding:48px 0 24px">
+    <h1 style="margin:0 0 8px">Inkphora / Thymiko</h1>
+    <p class="sub" style="margin:0 0 12px">
+      Empathic AI for emotional well-being — <strong>3 months free</strong> for early testers
+    </p>
+    <div style="margin:10px 0 18px;opacity:.95">
+      <img src="/assets/thymiko-logo-v10.png" alt="Thymiko" style="height:86px;width:auto">
+    </div>
+    <a class="btn btn-primary" href="#waitlist">Join Beta</a>
   </main>
 
-  <footer class="container footer">
-    <div class="brand small">
-      <img src="/assets/inkphora-logo.png" alt="Inkphora" class="logo sm">
-      <span class="plus">/</span>
-      <img src="/assets/thymiko-logo.png" alt="Thymiko" class="logo sm">
+  <!-- Waitlist card -->
+  <section class="wrap" id="waitlist">
+    <div class="card" style="max-width:760px;margin:0 auto">
+      <h3 style="margin-top:0">Join the Private Beta</h3>
+
+      <form id="beta-form" autocomplete="on" novalidate>
+        <!-- Honeypot (spam trap) -->
+        <input type="text" name="hp" id="hp" style="display:none" tabindex="-1" autocomplete="off">
+
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <input type="email" id="email" name="email" placeholder="you@example.com" required>
+          <button type="submit" class="btn btn-primary" id="btnSubmit">Join Beta</button>
+        </div>
+
+        <p class="consent" style="margin:.6rem 0 0">
+          <label><input type="checkbox" id="consent" required>
+            I consent to receive beta updates for Inkphora / Thymiko (unsubscribe anytime).
+          </label>
+        </p>
+      </form>
+
+      <p id="beta-msg" class="small" style="margin-top:.6rem;color:var(--muted)"></p>
     </div>
-    <div class="legal">
-      © 2025 Inkphora • <a href="/privacy.html">Privacy</a>
-    </div>
+  </section>
+
+  <footer class="wrap" style="text-align:center;margin:36px 0 24px">
+    <small>© 2025 Inkphora • Prototype: Thymiko • <a href="/privacy.html">Privacy</a></small>
   </footer>
 
+  <noscript>
+    <div class="wrap" style="max-width:760px;margin:1rem auto;color:#c00">
+      JavaScript is required to join the waitlist.
+    </div>
+  </noscript>
+
+  <!-- Connector to Netlify Function -->
   <script>
-    // Smooth scroll for CTA
-    document.querySelectorAll('a[href^="#join"]').forEach(a => {
-      a.addEventListener('click', (e) => {
-        e.preventDefault();
-        document.getElementById('join').scrollIntoView({ behavior: 'smooth' });
-      });
-    });
+  document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('beta-form');
+    const msg  = document.getElementById('beta-msg');
+    const btn  = document.getElementById('btnSubmit');
 
-    // Handle submit
-    document.addEventListener('DOMContentLoaded', function () {
-      const form = document.getElementById('beta-form');
-      const msg = document.getElementById('beta-msg');
+    function say(text, ok=false){
+      msg.style.color = ok ? '#28c76f' : '#ff4d4f';
+      msg.textContent = text;
+    }
 
-      form.addEventListener('submit', async function (e) {
-        e.preventDefault();
-        msg.textContent = 'Submitting…';
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      msg.textContent = '';
+      btn.disabled = true;
 
-        const data = {
-          email: form.email.value,
-          consent: form.consent.checked,
-          hp: form.hp.value || ''
-        };
+      const email   = document.getElementById('email').value.trim();
+      const consent = document.getElementById('consent').checked;
+      const hp      = document.getElementById('hp').value.trim();
 
-        try {
-          const res = await fetch('/.netlify/functions/subscribe', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data),
-          });
+      // Honeypot: se pieno, è bot → esci in silenzio
+      if (hp) { btn.disabled = false; return say('OK', true); }
 
-          const text = await res.text();
-          let payload;
-          try { payload = JSON.parse(text); } catch { payload = { ok: false, error: text }; }
+      // Validazione minima
+      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!re.test(email) || !consent){
+        btn.disabled = false;
+        return say('Please enter a valid email and accept consent.');
+      }
 
-          if (res.ok && payload?.ok) {
-            msg.innerHTML = 'Thanks for joining the private beta! Please check your inbox for our welcome email.<br><strong>Bitte überprüfe dein Postfach.</strong>';
-            form.reset();
-          } else {
-            msg.textContent = payload?.error || 'Server error. Please try again later.';
-          }
-        } catch (err) {
-          console.error(err);
-          msg.textContent = 'Connection error. Please try again later.';
+      try {
+        const res = await fetch('/.netlify/functions/subscribe', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, consent })
+        });
+
+        if (!res.ok){
+          const t = await res.text().catch(()=> '');
+          throw new Error(`HTTP ${res.status} ${t || ''}`.trim());
         }
-      });
+
+        // Successo: messaggio + redirect alla thank-you
+        say('Thanks! Check your inbox for our welcome email.', true);
+        setTimeout(() => { window.location.href = '/thank-you.html'; }, 1200);
+
+      } catch (err){
+        console.error(err);
+        say('Connection error. Please try again later.');
+      } finally {
+        btn.disabled = false;
+      }
     });
+  });
   </script>
 </body>
 </html>
-
-
-
-
-
