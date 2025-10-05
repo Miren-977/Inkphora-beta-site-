@@ -21,29 +21,32 @@ exports.handler = async (event) => {
   try {
     const { email, consent, hp } = JSON.parse(event.body || '{}');
 
-    // Honeypot
+    // Honeypot: blocca bot
     if (hp && String(hp).trim() !== '') {
       return { statusCode: 200, headers: corsHeaders, body: JSON.stringify({ ok: true, bot: true }) };
     }
 
-    // Validazione
+    // Validazione email
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!re.test(String(email || '').trim())) {
       return { statusCode: 400, headers: corsHeaders, body: 'Invalid email' };
     }
+
     const consentBool = !!consent;
 
-    // Supabase insert
+    // --- ✅ INSERIMENTO IN SUPABASE ---
     const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE);
+
     const { error: dbErr } = await supabase
-      .from('mail')
+      .from('waiting_list')
       .insert([{ email, consent: consentBool, source: 'landing' }]);
+
     if (dbErr) {
       console.error('Supabase error:', dbErr);
       return { statusCode: 500, headers: corsHeaders, body: 'DB error' };
     }
 
-    // Email di ringraziamento
+    // --- ✉️ EMAIL DI RINGRAZIAMENTO ---
     const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST,
       port: Number(process.env.SMTP_PORT || 587),
@@ -56,6 +59,7 @@ exports.handler = async (event) => {
 We'll be in touch soon with the next steps to use the app.
 
 - The Inkphora Team`;
+
     const html = `<div style="font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif;font-size:16px;line-height:1.5;color:#111">
   <p>Thanks for joining us and <strong>Welcome to the private beta trial of Thymiko / Inkphora</strong>.</p>
   <p>We'll be in touch soon with the next steps to use the app.</p>
@@ -63,7 +67,11 @@ We'll be in touch soon with the next steps to use the app.
 </div>`;
 
     await transporter.sendMail({
-      from: process.env.SMTP_FROM, to: email, subject, text, html
+      from: process.env.SMTP_FROM,
+      to: email,
+      subject,
+      text,
+      html
     });
 
     return { statusCode: 200, headers: corsHeaders, body: JSON.stringify({ ok: true }) };
