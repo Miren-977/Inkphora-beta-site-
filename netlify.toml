@@ -1,8 +1,7 @@
 [build]
-  # Nessun build step per un sito statico
   publish = "."
+  functions = "netlify/functions"
 
 [functions]
-  directory = "netlify/functions"
   node_bundler = "esbuild"
 
