@@ -1,36 +1,47 @@
-// ... previous imports and CORS ...
+// netlify/functions/subscribe.js
+// CommonJS (Netlify Functions v1)
+const nodemailer = require('nodemailer');
+const { createClient } = require('@supabase/supabase-js');
+
+// ---- CORS ----
+const ORIGIN = process.env.CORS_ORIGIN || '*';
+const corsHeaders = {
+  'Access-Control-Allow-Origin': ORIGIN,
+  'Access-Control-Allow-Headers': 'Content-Type',
+  'Access-Control-Allow-Methods': 'POST,OPTIONS'
+};
 
 exports.handler = async (event) => {
-  if (event.httpMethod === 'OPTIONS') return { statusCode: 204, headers: corsHeaders };
-  if (event.httpMethod !== 'POST') return { statusCode: 405, headers: corsHeaders, body: 'Method Not Allowed' };
+  // Preflight
+  if (event.httpMethod === 'OPTIONS') {
+    return { statusCode: 204, headers: corsHeaders };
+  }
+  if (event.httpMethod !== 'POST') {
+    return { statusCode: 405, headers: corsHeaders, body: 'Method Not Allowed' };
+  }
 
   try {
     const { email, consent, hp } = JSON.parse(event.body || '{}');
 
-    // honeypot
+    // Honeypot
     if (hp && String(hp).trim() !== '') {
       return { statusCode: 200, headers: corsHeaders, body: JSON.stringify({ ok: true, bot: true }) };
     }
 
+    // Validazione email
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!re.test(String(email || '').trim())) {
       return { statusCode: 400, headers: corsHeaders, body: 'Invalid email' };
     }
     const consentBool = !!consent;
 
-    const supabase = require('@supabase/supabase-js')
-      .createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE);
-
-    // ✅ Use UPSERT and conflict on the unique column
+    // Supabase (UPsert per evitare duplicati su email)
+    const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE);
     const { error: dbErr } = await supabase
       .from('waiting_list')
-      .upsert(
-        [{ email, consent: consentBool, source: 'landing' }],
-        { onConflict: 'email' }              // must match the unique column(s)
-      );
+      .upsert([{ email, consent: consentBool, source: 'landing' }], { onConflict: 'email' });
 
     if (dbErr) {
-      // If your client lib still returns 23505 on conflict, swallow it
       if (dbErr.code === '23505') {
         console.warn('Duplicate email, treating as OK:', email);
       } else {
@@ -39,9 +50,9 @@ exports.handler = async (event) => {
       }
     }
 
-    // Send email but don't block success if SMTP fails
+    // Email di ringraziamento (non blocca la risposta)
     try {
-      const transporter = require('nodemailer').createTransport({
+      const transporter = nodemailer.createTransport({
         host: process.env.SMTP_HOST,
         port: Number(process.env.SMTP_PORT || 587),
         secure: String(process.env.SMTP_SECURE || '').toLowerCase() === 'true',
@@ -49,7 +60,8 @@ exports.handler = async (event) => {
       });
 
       const subject = 'Thanks & Welcome — Inkphora Private Beta';
-      const text = `Thanks for joining us and Welcome to the private beta trial of Thymiko / Inkphora.
+      const text =
+`Thanks for joining us and Welcome to the private beta trial of Thymiko / Inkphora.
 We'll be in touch soon with the next steps to use the app.
 
 - The Inkphora Team`;
@@ -61,7 +73,7 @@ We'll be in touch soon with the next steps to use the app.
 
       await transporter.sendMail({ from: process.env.SMTP_FROM, to: email, subject, text, html });
     } catch (mailErr) {
-      console.error('SMTP error (not blocking):', mailErr);
+      console.error('SMTP error (non-blocking):', mailErr);
     }
 
     return { statusCode: 200, headers: corsHeaders, body: JSON.stringify({ ok: true }) };
