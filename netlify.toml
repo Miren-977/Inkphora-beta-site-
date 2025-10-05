@@ -1,7 +1,8 @@
 [build]
-  command = "npm run build"
-  publish = "dist"
+  # Nessun build step per un sito statico
+  publish = "."
 
 [functions]
   directory = "netlify/functions"
   node_bundler = "esbuild"
+
