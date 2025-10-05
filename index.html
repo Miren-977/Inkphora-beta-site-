@@ -1,55 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Inkphora / Thymiko – Private Beta</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Inkphora / Thymiko — Private Beta</title>
+  <link rel="icon" href="/assets/favicon-v10.png">
+  <link rel="stylesheet" href="style.css?v=1">
+  <meta name="description" content="Join the private beta of Thymiko / Inkphora. Register your email to get early access and 3 months free at launch.">
 </head>
 <body>
-  <header>
-    <h1>Inkphora / Thymiko</h1>
-    <button id="betaBtn">Join Beta Test</button>
+  <header class="container header">
+    <div class="brand">
+      <img src="/assets/inkphora-logo.png" alt="Inkphora" class="logo">
+      <span class="plus">/</span>
+      <img src="/assets/thymiko-logo.png" alt="Thymiko" class="logo">
+    </div>
+    <nav class="nav">
+      <a href="#about">About</a>
+      <a href="/privacy.html">Privacy</a>
+    </nav>
   </header>
 
-  <section id="beta-box" style="display:none; padding:2rem;">
-    <h2>Join the Private Beta</h2>
-    <form id="beta-form">
-      <input type="email" name="email" placeholder="Enter your email" required>
-      <input type="checkbox" name="consent" required>
-      <label for="consent">I consent to the processing of my data for the purpose of participating in the Inkphora Beta test (GDPR compliant).</label>
-      <input type="text" name="hp" style="display:none" tabindex="-1" autocomplete="off">
-      <button type="submit">Join Beta</button>
-    </form>
-  </section>
+  <main class="container">
+    <section class="hero">
+      <h1>Join the Private Beta</h1>
+      <p class="sub">Register your email to get early access to Thymiko / Inkphora — <strong>3 months free</strong> at launch.</p>
+      <div class="cta">
+        <a class="btn btn-primary" href="#join">Join & Get 3 Months Free</a>
+      </div>
+    </section>
 
-  <footer>
-    © 2025 Inkphora • Prototype: Thymiko • <a href="/privacy.html">Privacy</a>
+    <section id="about" class="grid">
+      <div class="card indigo">
+        <h3>Draw your emotions</h3>
+        <p>Sketch strokes. Thymiko turns them into empathic reflections.</p>
+      </div>
+      <div class="card orange">
+        <h3>Poetic output</h3>
+        <p>Receive a compact, human‑tone poem that mirrors your mood.</p>
+      </div>
+      <div class="card soft">
+        <h3>Lightweight ritual</h3>
+        <p>60–120 seconds per session. Private, calming, yours.</p>
+      </div>
+    </section>
+
+    <section id="join" class="join card soft">
+      <h2>Get early access</h2>
+      <p class="muted">We’ll email you the next steps. No spam. Unsubscribe anytime.</p>
+      <form id="beta-form" class="form" novalidate>
+        <label class="sr-only" for="email">Email</label>
+        <input id="email" name="email" type="email" placeholder="you@example.com" required>
+
+        <label class="check">
+          <input type="checkbox" name="consent" required>
+          <span>I consent to the processing of my data for the purpose of participating in the Inkphora Beta test (GDPR compliant).</span>
+        </label>
+
+        <!-- Honeypot -->
+        <input type="text" name="hp" autocomplete="off" tabindex="-1" class="hp">
+
+        <button type="submit" class="btn btn-primary">Join Beta</button>
+        <p id="beta-msg" class="msg" aria-live="polite"></p>
+      </form>
+      <p class="tiny">By signing up, you’ll reserve your <strong>3 months free</strong> for the public launch.</p>
+    </section>
+  </main>
+
+  <footer class="container footer">
+    <div class="brand small">
+      <img src="/assets/inkphora-logo.png" alt="Inkphora" class="logo sm">
+      <span class="plus">/</span>
+      <img src="/assets/thymiko-logo.png" alt="Thymiko" class="logo sm">
+    </div>
+    <div class="legal">
+      © 2025 Inkphora • <a href="/privacy.html">Privacy</a>
+    </div>
   </footer>
 
   <script>
-    // Show beta box
-    document.getElementById('betaBtn').addEventListener('click', () => {
-      document.getElementById('beta-box').style.display = 'block';
-      document.getElementById('betaBtn').style.display = 'none';
+    // Smooth scroll for CTA
+    document.querySelectorAll('a[href^="#join"]').forEach(a => {
+      a.addEventListener('click', (e) => {
+        e.preventDefault();
+        document.getElementById('join').scrollIntoView({ behavior: 'smooth' });
+      });
     });
 
-    // Handle form submission
+    // Handle submit
     document.addEventListener('DOMContentLoaded', function () {
       const form = document.getElementById('beta-form');
-      const msg = document.createElement('p');
-      msg.id = 'beta-msg';
-      msg.style.marginTop = '1rem';
-      msg.style.fontSize = '0.95rem';
-      msg.style.color = '#FAFAFC';
-      form.appendChild(msg);
+      const msg = document.getElementById('beta-msg');
 
       form.addEventListener('submit', async function (e) {
         e.preventDefault();
-        msg.textContent = 'Submitting...';
-        const formData = new FormData(form);
-        const data = Object.fromEntries(formData.entries());
-        data.consent = form.querySelector('input[name="consent"]').checked;
+        msg.textContent = 'Submitting…';
+
+        const data = {
+          email: form.email.value,
+          consent: form.consent.checked,
+          hp: form.hp.value || ''
+        };
 
         try {
           const res = await fetch('/.netlify/functions/subscribe', {
@@ -57,20 +108,28 @@
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data),
           });
-          const json = await res.json();
-          if (json.ok) {
-            msg.innerHTML =
-              'Thanks for joining the private beta! Please check your inbox for our welcome email.<br><strong>Bitte überprüfe dein Postfach.</strong>';
+
+          const text = await res.text();
+          let payload;
+          try { payload = JSON.parse(text); } catch { payload = { ok: false, error: text }; }
+
+          if (res.ok && payload?.ok) {
+            msg.innerHTML = 'Thanks for joining the private beta! Please check your inbox for our welcome email.<br><strong>Bitte überprüfe dein Postfach.</strong>';
             form.reset();
           } else {
-            msg.textContent = 'Oops! Something went wrong. Please try again.';
+            msg.textContent = payload?.error || 'Server error. Please try again later.';
           }
         } catch (err) {
-          msg.textContent = 'Connection error. Please try again later.';
           console.error(err);
+          msg.textContent = 'Connection error. Please try again later.';
         }
       });
     });
   </script>
 </body>
 </html>
+
+
+
+
+
