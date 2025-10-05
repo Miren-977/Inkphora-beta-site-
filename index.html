@@ -3,131 +3,181 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Inkphora / Thymiko — Private Beta</title>
-
-  <!-- Icons & OG -->
+  <title>Inkphora — Empathic AI Music Oracle</title>
+  <meta name="description" content="Join Inkphora's private beta. Draw with your finger, receive a poetic reflection, then unlock a personalised music path. Prototype: Thymiko." />
+  <meta property="og:title" content="Inkphora — Empathic AI Music Oracle" />
+  <meta property="og:description" content="Join the private beta. Teach the Oracle — powered by Thymiko." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="/assets/inkphora-logo-v10.png" />
   <link rel="icon" href="/favicon-v10.ico" sizes="any">
   <link rel="icon" type="image/png" href="/favicon-v10.png" sizes="512x512">
   <link rel="apple-touch-icon" href="/favicon-v10.png">
-  <meta property="og:image" content="/assets/inkphora-logo-v10.png" />
 
-  <!-- Your existing CSS -->
-  <link rel="stylesheet" href="/style.css?v=3">
+  <!-- ************  CSS INLINE (stile identico dark indigo/orange) ************ -->
+  <style>
+    :root{
+      --bg:#3A3C48; --fg:#FAFAFC; --muted:#C8CAD8; --card:#4A4C5A; --border:#606270;
+      --brand:#14192E; --highlight:#7B61FF; --accent:#FF8A3D;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--fg);font-size:16px;line-height:1.6}
+    .wrap{max-width:980px;margin:0 auto;padding:20px}
+    header{display:flex;justify-content:space-between;align-items:center}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:600}
+    nav a{color:var(--fg);margin-left:12px;text-decoration:none;font-size:15px;opacity:.9}
+    nav a:hover{text-decoration:underline;text-decoration-color:var(--highlight)}
+    .hero{padding:56px 0 40px;text-align:center}
+    .hero h1{font-size:32px;margin:0 0 8px;font-weight:600}
+    .sub{color:var(--muted);max-width:700px;margin:6px auto 14px}
+    .powered{display:inline-flex;gap:10px;align-items:center;color:var(--muted);font-size:14px;margin-bottom:10px}
+    .powered img{height:90px;width:auto}
+    .actions{margin-top:12px}
+    .btn{display:inline-block;padding:12px 20px;border-radius:10px;font-weight:600;cursor:pointer}
+    .btn-primary{background:var(--accent);color:#111;margin-right:8px;border:none}
+    .btn-secondary{border:2px solid var(--brand);color:var(--fg);background:transparent}
+    .note{color:var(--muted);margin-top:14px;font-size:14px}
+    .divider{height:4px;background:var(--highlight);opacity:1;margin:28px 0;border-radius:3px;box-shadow:0 0 14px rgba(123,97,255,.35)}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;margin:18px 0}
+    .card h3{margin:0 0 6px;font-weight:600}
+    .iconbar{width:6px;border-radius:3px;background:var(--highlight);height:80px;margin-right:12px;box-shadow:0 0 16px rgba(123,97,255,.35)}
+    .row{display:flex;gap:12px;align-items:flex-start}
+    input[type=email]{padding:12px;border-radius:10px;border:1px solid var(--border);background:#fff;color:#111;width:70%;max-width:280px}
+    .consent{margin-top:10px;font-size:13px;color:var(--muted)}
+    footer{padding:28px 0;text-align:center;color:var(--muted);font-size:14px}
+    footer a{color:var(--fg)}
+    .logos{display:flex;gap:12px;align-items:center;justify-content:center;margin-top:6px;opacity:.95}
+    .logos img{height:72px;width:auto}
+    #faq .card{font-size:15px;line-height:1.55;margin:10px 0;padding:14px}
+    #faq h2{font-size:20px;font-weight:600;text-align:center}
+    #error{color:#ffb4a6;margin-top:10px;display:none}
+    #ok{color:#adffb4;margin-top:10px;display:none}
+  </style>
 </head>
 <body>
-  <!-- Top bar -->
   <header class="wrap">
-    <div class="brand">
-      <img src="/assets/inkphora-logo-v10.png" alt="Inkphora" class="logo" style="height:64px;width:auto" />
-    </div>
+    <div class="brand"><span>Inkphora</span></div>
     <nav>
-      <a href="#waitlist">Join Beta</a>
-      <a href="/privacy.html">Privacy</a>
+      <a href="#features">Features</a>
+      <a href="#prototype">Prototype</a>
+      <a href="#waitlist">Waitlist</a>
+      <a href="#faq">FAQ</a>
     </nav>
   </header>
 
-  <!-- Hero -->
-  <main class="wrap hero" style="text-align:center;padding:48px 0 24px">
-    <h1 style="margin:0 0 8px">Inkphora / Thymiko</h1>
-    <p class="sub" style="margin:0 0 12px">
-      Empathic AI for emotional well-being — <strong>3 months free</strong> for early testers
-    </p>
-    <div style="margin:10px 0 18px;opacity:.95">
-      <img src="/assets/thymiko-logo-v10.png" alt="Thymiko" style="height:86px;width:auto">
+  <main class="wrap hero">
+    <h1>Join the Private Beta Trial</h1>
+    <div class="powered">
+      <span>Teach the Oracle — powered by</span>
+      <img src="/assets/thymiko-logo-v10.png" alt="Thymiko logo" />
     </div>
-    <a class="btn btn-primary" href="#waitlist">Join Beta</a>
+    <p class="sub">An Empathic AI Music Oracle for personalised music therapy and emotional wellbeing.</p>
+    <div class="actions">
+      <a class="btn btn-primary" href="#waitlist">Request Beta Access</a>
+      <a class="btn btn-secondary" href="#waitlist">Join Waitlist</a>
+    </div>
+    <p class="note">📱 Mobile only — please use your smartphone.</p>
+    <div class="divider"></div>
   </main>
 
-  <!-- Waitlist card -->
+  <section class="wrap" id="features">
+    <div class="card"><div class="row"><div class="iconbar"></div><div><h3>Gesture</h3><p>The rhythm and flow of the stroke are captured as light features that guide the oracle.</p></div></div></div>
+    <div class="card"><div class="row"><div class="iconbar"></div><div><h3>Poetic Reflection</h3><p>Each gesture is translated into an empathic poetic interpretation — a mirror for your moment.</p></div></div></div>
+    <div class="card"><div class="row"><div class="iconbar"></div><div><h3>Emotion Dynamics</h3><p>The rhythm and flow of the gesture are mirrored in a visible way, shaping the oracle’s response.</p></div></div></div>
+    <div class="card"><div class="row"><div class="iconbar"></div><div><h3>Empathic Music Path</h3><p>From the reflection, choose raga, classical or ambient to nurture balance and wellbeing.</p></div></div></div>
+  </section>
+
   <section class="wrap" id="waitlist">
-    <div class="card" style="max-width:760px;margin:0 auto">
-      <h3 style="margin-top:0">Join the Private Beta</h3>
+    <div class="card">
+      <h3>Join the Waitlist</h3>
 
-      <form id="beta-form" autocomplete="on" novalidate>
-        <!-- Honeypot (spam trap) -->
-        <input type="text" name="hp" id="hp" style="display:none" tabindex="-1" autocomplete="off">
-
-        <div style="display:flex;gap:10px;flex-wrap:wrap">
-          <input type="email" id="email" name="email" placeholder="you@example.com" required>
-          <button type="submit" class="btn btn-primary" id="btnSubmit">Join Beta</button>
-        </div>
-
-        <p class="consent" style="margin:.6rem 0 0">
-          <label><input type="checkbox" id="consent" required>
-            I consent to receive beta updates for Inkphora / Thymiko (unsubscribe anytime).
-          </label>
+      <!-- Form UI (usa Netlify Function; niente invio pagina) -->
+      <form id="beta-form" autocomplete="on">
+        <input type="email" name="email" placeholder="you@example.com" required>
+        <button type="submit" class="btn btn-primary" id="submitBtn">Subscribe</button>
+        <p class="consent">
+          <label><input type="checkbox" name="consent" required> I agree to receive beta updates for Inkphora (unsubscribe anytime).</label>
         </p>
+        <!-- honeypot -->
+        <input type="text" name="hp" style="display:none" tabindex="-1" autocomplete="off">
       </form>
 
-      <p id="beta-msg" class="small" style="margin-top:.6rem;color:var(--muted)"></p>
+      <p id="ok">Thanks! Redirecting…</p>
+      <p id="error">Connection error. Please try again later.</p>
+
+      <p class="consent">We collect only your email. No ads. No tracking. Unsubscribe anytime.</p>
+      <p class="consent">✨ Early supporters receive <strong>3 months of full access</strong> at launch.</p>
+      <p class="consent">Prefer not to use forms? Write to: <span>beta [at] inkphora.app</span></p>
+      <p class="consent">🔒 Double opt-in will be enabled when connected to our email provider.</p>
     </div>
   </section>
 
-  <footer class="wrap" style="text-align:center;margin:36px 0 24px">
-    <small>© 2025 Inkphora • Prototype: Thymiko • <a href="/privacy.html">Privacy</a></small>
+  <section class="wrap" id="faq">
+    <h2>FAQ</h2>
+    <div class="card"><strong>Q: What is Inkphora?</strong><br>
+      A: Inkphora is an empathic AI “oracle” that transforms your freehand gestures into poetic text and personalized music for emotional well-being.</div>
+    <div class="card"><strong>Q: What is the Thymiko prototype?</strong><br>
+      A: Thymiko is our first beta prototype — a touch-based sketchpad that interprets simple strokes and returns reflective text and music suggestions.</div>
+    <div class="card"><strong>Q: What does “beta trial” mean?</strong><br>
+      A: Early access while we are still developing. Features may change, and your feedback helps us improve.</div>
+    <div class="card"><strong>Q: Do I have to pay?</strong><br>
+      A: No. The beta trial is free, and those who join will later receive at least 3 months free access.</div>
+    <div class="card"><strong>Q: Is my email safe?</strong><br>
+      A: Yes. We only collect your email for beta access and updates. No ads, no tracking, and you can unsubscribe anytime.</div>
+  </section>
+
+  <footer>
+    © 2025 Inkphora • Prototype: Thymiko • <a href="/privacy.html">Privacy</a>
+    <div class="logos">
+      <img src="/assets/inkphora-logo-v10.png" alt="Inkphora logo small" />
+      <span>•</span>
+      <img src="/assets/thymiko-logo-v10.png" alt="Thymiko logo small" />
+    </div>
   </footer>
 
-  <noscript>
-    <div class="wrap" style="max-width:760px;margin:1rem auto;color:#c00">
-      JavaScript is required to join the waitlist.
-    </div>
-  </noscript>
-
-  <!-- Connector to Netlify Function -->
+  <!-- ************  JS: chiamata alla Netlify Function  ************ -->
   <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const form = document.getElementById('beta-form');
-    const msg  = document.getElementById('beta-msg');
-    const btn  = document.getElementById('btnSubmit');
+    (function () {
+      const form = document.getElementById('beta-form');
+      const ok = document.getElementById('ok');
+      const err = document.getElementById('error');
+      const submitBtn = document.getElementById('submitBtn');
 
-    function say(text, ok=false){
-      msg.style.color = ok ? '#28c76f' : '#ff4d4f';
-      msg.textContent = text;
-    }
-
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      msg.textContent = '';
-      btn.disabled = true;
-
-      const email   = document.getElementById('email').value.trim();
-      const consent = document.getElementById('consent').checked;
-      const hp      = document.getElementById('hp').value.trim();
-
-      // Honeypot: se pieno, è bot → esci in silenzio
-      if (hp) { btn.disabled = false; return say('OK', true); }
-
-      // Validazione minima
-      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!re.test(email) || !consent){
-        btn.disabled = false;
-        return say('Please enter a valid email and accept consent.');
-      }
-
-      try {
-        const res = await fetch('/.netlify/functions/subscribe', {
+      async function postJSON(url, data) {
+        const res = await fetch(url, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, consent })
+          body: JSON.stringify(data),
         });
-
-        if (!res.ok){
-          const t = await res.text().catch(()=> '');
-          throw new Error(`HTTP ${res.status} ${t || ''}`.trim());
-        }
-
-        // Successo: messaggio + redirect alla thank-you
-        say('Thanks! Check your inbox for our welcome email.', true);
-        setTimeout(() => { window.location.href = '/thank-you.html'; }, 1200);
-
-      } catch (err){
-        console.error(err);
-        say('Connection error. Please try again later.');
-      } finally {
-        btn.disabled = false;
+        // la Function risponde 200/201 su ok; 405 se GET diretto
+        if (!res.ok) throw new Error(await res.text().catch(()=>'Request failed'));
+        return res.json().catch(() => ({}));
       }
-    });
-  });
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        err.style.display = 'none';
+        ok.style.display = 'none';
+        submitBtn.disabled = true;
+
+        const fd = new FormData(form);
+        const payload = {
+          email: String(fd.get('email') || '').trim(),
+          consent: !!fd.get('consent'),
+          hp: String(fd.get('hp') || '').trim()
+        };
+
+        try {
+          await postJSON('/.netlify/functions/subscribe', payload);
+          ok.style.display = 'block';
+          // redirect dopo 600ms
+          setTimeout(() => { window.location.href = '/thank-you.html'; }, 600);
+        } catch (e2) {
+          err.style.display = 'block';
+          submitBtn.disabled = false;
+        }
+      });
+    })();
   </script>
 </body>
 </html>
