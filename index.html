@@ -4,74 +4,201 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Inkphora — Empathic AI Music Oracle</title>
+
   <meta name="description" content="Join Inkphora's private beta." />
+  <meta property="og:title" content="Inkphora — Empathic AI Music Oracle" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="/assets/inkphora-logo-v10.png" />
 
   <link rel="icon" href="/favicon-v10.ico">
   <link rel="icon" type="image/png" href="/favicon-v10.png">
 
-  <!-- LINK CSS -->
-  <link rel="stylesheet" href="/style.css">
+  <style>
+    :root{
+      --bg:#3A3C48; --fg:#FAFAFC; --muted:#C8CAD8;
+      --card:#4A4C5A; --border:#606270;
+      --highlight:#7B61FF; --accent:#FF8A3D;
+    }
+
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background:var(--bg);
+      color:var(--fg);
+    }
+
+    .wrap{max-width:980px;margin:0 auto;padding:20px}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;margin:18px 0}
+    .btn{padding:10px 16px;border-radius:8px;border:none;cursor:pointer}
+    .btn-primary{background:var(--accent);color:#111}
+
+    input[type=email]{
+      padding:10px;border-radius:8px;border:1px solid var(--border);
+      background:#fff;color:#111;
+    }
+
+    #error{color:#ffb4a6;display:none}
+    #ok{color:#adffb4;display:none}
+
+    /* ================= RAG CHAT ================= */
+
+    .rag-box{
+      max-height:260px;
+      overflow-y:auto;
+      background:#2f313c;
+      padding:12px;
+      border-radius:10px;
+      border:1px solid var(--border);
+      margin-bottom:12px;
+      font-size:14px;
+    }
+
+    .rag-msg{margin:6px 0}
+    .rag-role{font-weight:600;color:var(--highlight)}
+
+    .rag-input-row{
+      display:flex;
+      gap:8px;
+    }
+
+    .rag-input-row input{
+      flex:1;
+      padding:10px;
+      border-radius:8px;
+      border:1px solid var(--border);
+      background:#fff;
+      color:#111;
+    }
+
+  </style>
 </head>
 
 <body>
 
-  <header class="wrap">
-    <div class="brand"><span>Inkphora</span></div>
-    <nav>
-      <a href="#features">Features</a>
-      <a href="#waitlist">Waitlist</a>
-      <a href="#faq">FAQ</a>
-      <a href="#ask">Ask</a>
-    </nav>
-  </header>
-
-  <main class="wrap hero">
+  <section class="wrap">
     <h1>Join the Private Beta Trial</h1>
-    <p class="sub">An Empathic AI Music Oracle for personalised music and emotional wellbeing.</p>
-    <div class="actions">
-      <a class="btn btn-primary" href="#waitlist">Request Beta Access</a>
-    </div>
-    <div class="divider"></div>
-  </main>
-
-  <!-- FEATURES -->
-  <section class="wrap" id="features">
-    <div class="card"><h3>Gesture</h3><p>The rhythm and flow of the stroke guide the oracle.</p></div>
-    <div class="card"><h3>Poetic Reflection</h3><p>Each gesture becomes a poetic mirror.</p></div>
   </section>
 
-  <!-- WAITLIST -->
   <section class="wrap" id="waitlist">
     <div class="card">
       <h3>Join the Waitlist</h3>
+
       <form id="beta-form">
         <input type="email" name="email" placeholder="you@example.com" required>
         <button type="submit" class="btn btn-primary" id="submitBtn">Subscribe</button>
         <input type="checkbox" name="consent" required> I agree
       </form>
+
       <p id="ok">Thanks! Redirecting…</p>
       <p id="error">Connection error.</p>
     </div>
   </section>
 
-  <!-- RAG CHAT -->
+  <!-- ================= RAG CHAT ================= -->
   <section class="wrap" id="ask">
     <div class="card">
       <h3>Ask Inkphora</h3>
-      <div id="ragChatBox" class="rag-chatbox"></div>
-      <div class="rag-controls">
-        <input id="ragInput" type="text" placeholder="Ask about the beta...">
+      <div id="ragChatBox" class="rag-box"></div>
+      <div class="rag-input-row">
+        <input id="ragInput" type="text" placeholder="Ask about the beta..." />
         <button id="ragSendBtn" class="btn btn-primary">Send</button>
       </div>
     </div>
   </section>
 
-  <footer>
-    © 2025 Inkphora • <a href="/privacy.html">Privacy</a>
+  <footer class="wrap">
+    © 2025 Inkphora
   </footer>
 
-  <!-- LINK JS -->
-  <script src="/script.js"></script>
+  <script>
+    (function () {
+
+      /* ================= WAITLIST ================= */
+
+      const form = document.getElementById('beta-form');
+      const ok = document.getElementById('ok');
+      const err = document.getElementById('error');
+      const submitBtn = document.getElementById('submitBtn');
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        err.style.display = 'none';
+        ok.style.display = 'none';
+        submitBtn.disabled = true;
+
+        const fd = new FormData(form);
+        const payload = {
+          email: String(fd.get('email') || '').trim(),
+          consent: !!fd.get('consent')
+        };
+
+        try {
+          await fetch('/.netlify/functions/subscribe', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+
+          ok.style.display = 'block';
+          setTimeout(() => {
+            window.location.href = '/thank-you.html';
+          }, 600);
+
+        } catch {
+          err.style.display = 'block';
+          submitBtn.disabled = false;
+        }
+      });
+
+      /* ================= RAG CHAT ================= */
+
+      const box = document.getElementById("ragChatBox");
+      const input = document.getElementById("ragInput");
+      const sendBtnRag = document.getElementById("ragSendBtn");
+
+      function addMsg(role, text) {
+        const p = document.createElement("p");
+        p.className = "rag-msg";
+        p.innerHTML = `<span class="rag-role">${role}:</span> ${text}`;
+        box.appendChild(p);
+        box.scrollTop = box.scrollHeight;
+      }
+
+      async function sendMessage() {
+        const q = input.value.trim();
+        if (!q) return;
+
+        addMsg("You", q);
+        input.value = "";
+        sendBtnRag.disabled = true;
+
+        try {
+          const res = await fetch("/.netlify/functions/rag", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ question: q })
+          });
+
+          const data = await res.json();
+          addMsg("Inkphora", data.answer || "No answer.");
+
+        } catch {
+          addMsg("Inkphora", "Error. Please try again.");
+        } finally {
+          sendBtnRag.disabled = false;
+          input.focus();
+        }
+      }
+
+      sendBtnRag.addEventListener("click", sendMessage);
+      input.addEventListener("keydown", e => {
+        if (e.key === "Enter") sendMessage();
+      });
+
+      addMsg("Inkphora", "Hi — ask me about the beta.");
+
+    })();
+  </script>
 
 </body>
 </html>
