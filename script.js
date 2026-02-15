@@ -1,29 +1,66 @@
-// call rag function // 
-
 (function () {
+
+  /* ======================
+     WAITLIST SUBSCRIBE
+  ====================== */
+
+  const form = document.getElementById('beta-form');
+  const ok = document.getElementById('ok');
+  const err = document.getElementById('error');
+  const submitBtn = document.getElementById('submitBtn');
+
+  if (form) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      err.style.display = 'none';
+      ok.style.display = 'none';
+      submitBtn.disabled = true;
+
+      const fd = new FormData(form);
+      const payload = {
+        email: String(fd.get('email') || '').trim(),
+        consent: !!fd.get('consent')
+      };
+
+      try {
+        await fetch('/.netlify/functions/subscribe', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        ok.style.display = 'block';
+        setTimeout(() => {
+          window.location.href = '/thank-you.html';
+        }, 600);
+
+      } catch {
+        err.style.display = 'block';
+        submitBtn.disabled = false;
+      }
+    });
+  }
+
+  /* ======================
+     RAG CHAT
+  ====================== */
+
   const box = document.getElementById("ragChatBox");
   const input = document.getElementById("ragInput");
   const sendBtn = document.getElementById("ragSendBtn");
 
+  if (!box || !input || !sendBtn) return;
+
   function addMsg(role, text) {
     const p = document.createElement("p");
     p.className = "rag-msg";
-    p.innerHTML = `<span class="rag-role">${role}:</span> ${escapeHtml(text)}`;
+    p.innerHTML = `<span class="rag-role">${role}:</span> ${text}`;
     box.appendChild(p);
     box.scrollTop = box.scrollHeight;
   }
 
-  function escapeHtml(str) {
-    return String(str)
-      .replaceAll("&", "&amp;")
-      .replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;")
-      .replaceAll('"', "&quot;")
-      .replaceAll("'", "&#039;");
-  }
-
   async function sendMessage() {
-    const q = (input.value || "").trim();
+    const q = input.value.trim();
     if (!q) return;
 
     addMsg("You", q);
@@ -37,16 +74,11 @@
         body: JSON.stringify({ question: q })
       });
 
-      if (!res.ok) {
-        const t = await res.text();
-        throw new Error(`HTTP ${res.status}: ${t}`);
-      }
-
       const data = await res.json();
-      addMsg("Inkphora", data.answer || "(No answer)");
-    } catch (err) {
+      addMsg("Inkphora", data.answer || "No answer.");
+
+    } catch (e) {
       addMsg("Inkphora", "Error. Please try again.");
-      console.error(err);
     } finally {
       sendBtn.disabled = false;
       input.focus();
@@ -54,10 +86,10 @@
   }
 
   sendBtn.addEventListener("click", sendMessage);
-  input.addEventListener("keydown", (e) => {
+  input.addEventListener("keydown", e => {
     if (e.key === "Enter") sendMessage();
   });
 
-  // Optional: welcome line
-  addMsg("Inkphora", "Hi — ask me about the beta test, privacy, and how Inkphora works.");
+  addMsg("Inkphora", "Hi — ask me about the beta.");
+
 })();
