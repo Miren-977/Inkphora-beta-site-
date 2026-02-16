@@ -84,15 +84,17 @@
   if (toggle && chatWindow) {
     // Apri chat
     toggle.addEventListener("click", () => {
+      chatWindow.classList.add("visible");
       chatWindow.classList.remove("hidden");
-      toggle.classList.remove("visible");
+      toggle.style.display = "none";
     });
     
     // Chiudi chat
     if (closeBtn) {
       closeBtn.addEventListener("click", () => {
         chatWindow.classList.add("hidden");
-        toggle.classList.add("visible");
+        chatWindow.classList.remove("visible");
+        toggle.style.display = "block";
       });
     }
   }
