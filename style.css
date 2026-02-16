@@ -172,7 +172,7 @@ footer a{color:var(--fg)}
   font-weight:600;
 }
 .rag-box{
-  max-height:280px;
+  max-height:400px;  /* ← AUMENTATO da 280px */
   overflow-y:auto;
   background:#2f313c;
   padding:12px;
@@ -183,6 +183,7 @@ footer a{color:var(--fg)}
 .rag-msg{
   margin:6px 0;
   font-size:14px;
+  line-height:1.5;  /* ← AGGIUNTO per leggibilità */
 }
 .rag-role{
   font-weight:600;
@@ -219,7 +220,7 @@ footer a{color:var(--fg)}
   position:fixed;
   bottom:15px;
   right:15px;
-  width:280px;
+  width:280px;  /* ← LARGHEZZA INVARIATA */
   max-width:85vw;
   z-index:1000;
   box-shadow:0 4px 20px rgba(0,0,0,.4);
@@ -235,7 +236,7 @@ footer a{color:var(--fg)}
   margin-bottom:8px;
 }
 .rag-chat-fixed .rag-box{
-  max-height:200px;
+  max-height:350px;  /* ← AUMENTATO da 200px */
   font-size:13px;
   padding:8px;
   margin-bottom:8px;
@@ -243,6 +244,7 @@ footer a{color:var(--fg)}
 .rag-chat-fixed .rag-msg{
   font-size:12px;
   margin:4px 0;
+  line-height:1.4;  /* ← AGGIUNTO per leggibilità */
 }
 .rag-chat-fixed .rag-input-row input{
   padding:8px;
