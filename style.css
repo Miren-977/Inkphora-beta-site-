@@ -273,7 +273,10 @@ footer a{color:var(--fg)}
   display:none;
 }
 .rag-toggle.visible{
-  display:block;
+  display:block !important;
+}
+.rag-toggle.hidden{
+  display:none !important;
 }
 /* Header con bottone chiudi */
 .rag-header{
@@ -318,6 +321,10 @@ footer a{color:var(--fg)}
   
   .rag-toggle{
     display:block !important;
+  }
+  
+  .rag-toggle.hidden{
+    display:none !important;
   }
   
   .rag-chat-fixed #ragChatWindow{
