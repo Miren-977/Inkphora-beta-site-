@@ -108,8 +108,12 @@
 
   <!-- RAG CHATBOT FIXED -->
   <div class="rag-chat-fixed">
-    <div class="rag-chat">
-      <h3>🌍 Chat with Inkphora</h3>
+    <button class="rag-toggle" id="ragToggle">💬</button>
+    <div class="rag-chat" id="ragChatWindow">
+      <div class="rag-header">
+        <h3>🌍 Chat with Inkphora</h3>
+        <button class="rag-close" id="ragClose">✕</button>
+      </div>
       <div class="rag-box" id="ragChatBox"></div>
       <div class="rag-input-row">
         <input type="text" id="ragInput" placeholder="Ask in: EN·IT·FR·DE·ES·PT">
