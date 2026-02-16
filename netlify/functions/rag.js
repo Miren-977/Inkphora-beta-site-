@@ -20,12 +20,12 @@ exports.handler = async (event) => {
     }
 
     // 1️⃣ Load docs
-    const docsPath = path.join(__dirname, "../../docs");
+    const docsPath = path.join(__dirname, "docs");  // ← CAMBIA SOLO QUESTO
     console.log("Looking for docs at:", docsPath);
     console.log("Directory exists:", fs.existsSync(docsPath));
     
     if (!fs.existsSync(docsPath)) {
-      throw new Error(`Docs folder not found at ${docsPath}`);
+      throw new Error(`Docs folder not found at ${docsPath}`);  // ← corretto anche questo (parentesi)
     }
     
     const files = fs.readdirSync(docsPath);
@@ -37,12 +37,12 @@ exports.handler = async (event) => {
         const filePath = path.join(docsPath, file);
         const content = fs.readFileSync(filePath, "utf-8");
         rawText += content + "\n";
-        console.log(`Loaded: ${file} (${content.length} chars)`);
+        console.log(`Loaded: ${file} (${content.length} chars)`);  // ← corretto anche questo (parentesi)
       }
     });
     
     console.log("Total text loaded:", rawText.length, "chars");
-
+    
     if (!rawText.trim()) {
       throw new Error("No content found in documents");
     }
