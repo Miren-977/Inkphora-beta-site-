@@ -72,7 +72,7 @@
   input.addEventListener("keydown", e => {
     if (e.key === "Enter") sendMessage();
   });
-  addMsg("Inkphora", "Hi! 🌍 I speak English, Italiano, Français, Deutsch, Español & Português. Ask me about the beta!");
+  addMsg("Inkphora", "Hi! 🌍 ask me anything!");
   
   /* ======================
      RAG CHAT TOGGLE
