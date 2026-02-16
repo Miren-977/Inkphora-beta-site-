@@ -317,10 +317,14 @@ footer a{color:var(--fg)}
   }
   
   .rag-toggle{
-    display:block;
+    display:block !important;
   }
   
   .rag-chat-fixed #ragChatWindow{
-    display:none;
+    display:none !important;
+  }
+  
+  .rag-chat-fixed #ragChatWindow.visible{
+    display:block !important;
   }
 }
