@@ -70,7 +70,7 @@ exports.handler = async (event) => {
     const context = results.map((r) => r.pageContent).join("\n");
     console.log("Context retrieved:", context.substring(0, 200) + "...");
 
-    // 5️⃣ LLM call
+    // 5️⃣ LLM call with multilingual support
     const openai = new OpenAI({
       apiKey: process.env.OPENAI_API_KEY,
     });
@@ -79,8 +79,19 @@ exports.handler = async (event) => {
       messages: [
         {
           role: "system",
-          content:
-            "You are the official Inkphora assistant. Answer only using the provided context. If the answer is not in the context, say you don't know.",
+          content: `You are the official Inkphora assistant. You must:
+1. Detect the language of the user's question
+2. Answer ONLY in that same language (English, Italian, French, German, Spanish, or Portuguese)
+3. Use ONLY the provided context to answer
+4. If the answer is not in the context, say "I don't know" in the user's language:
+   - English: "I don't have that information."
+   - Italian: "Non ho questa informazione."
+   - French: "Je n'ai pas cette information."
+   - German: "Ich habe diese Information nicht."
+   - Spanish: "No tengo esa información."
+   - Portuguese: "Não tenho essa informação."
+
+Be natural, friendly, and concise in your responses.`
         },
         {
           role: "user",
