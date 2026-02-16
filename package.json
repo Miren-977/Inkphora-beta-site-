@@ -8,6 +8,8 @@
     "nodemailer": "^6.9.9",
     "langchain": "^0.2.0",
     "@langchain/openai": "^0.0.28",
-    "openai": "^4.0.0"
+    "openai": "^4.0.0",
+    "@langchain/core": "^0.1.63",
+    "hnswlib-node": "^3.0.0"
   }
 }
