@@ -6,6 +6,8 @@ The current prototype is called Thymiko.
 
 It operates using the Inkphora Gesture-Affect Engine™, our proprietary gesture-based affective interpretation framework.
 
+The current prototype (Thymiko) is optimized for mobile touchscreen interaction and gesture input.
+
 ---
 
 ## What “beta” means
