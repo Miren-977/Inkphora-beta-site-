@@ -86,6 +86,7 @@
     toggle.addEventListener("click", () => {
       chatWindow.classList.add("visible");
       chatWindow.classList.remove("hidden");
+      toggle.classList.add("hidden");
       toggle.style.display = "none";
     });
     
@@ -94,6 +95,7 @@
       closeBtn.addEventListener("click", () => {
         chatWindow.classList.add("hidden");
         chatWindow.classList.remove("visible");
+        toggle.classList.remove("hidden");
         toggle.style.display = "block";
       });
     }
