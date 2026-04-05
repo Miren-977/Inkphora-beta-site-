@@ -136,9 +136,15 @@ No drawings are stored as images.
 
 ## Why this music is suggested
 
+The system does not generate only music.
+
+Each interaction produces a poetic reflection and a set of music suggestions.
+
 Music is selected to reflect the general emotional direction inferred from your gesture.
 
-Different styles may be suggested depending on the interpreted state.
+Different styles may be suggested, including classical, ragas, or ambient sound.
+
+Music is only one part of the experience, not the main output.
 
 ---
 
