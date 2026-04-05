@@ -132,19 +132,31 @@ No drawings are stored as images.
 - optional self-assessment inputs  
 - generated outputs (text)  
 
+The system may maintain a short-term internal memory across sessions (e.g. over several days) to ensure consistency of the experience.
+
+This memory is not linked to personal identity.
+
+No name, email, or personal profile is connected to this data.
+
+Data is stored in a protected and anonymized form.
+
 ---
 
 ## Why this music is suggested
 
-The system does not generate only music.
+The system is not limited to music.
 
-Each interaction produces a poetic reflection and a set of music suggestions.
+It interprets your gesture as an emotional signal that can guide different types of output.
 
-Music is selected to reflect the general emotional direction inferred from your gesture.
+In this beta, we use a small curated set of music.
 
-Different styles may be suggested, including classical, ragas, or ambient sound.
+This is done to ensure proper management of content rights and platform distribution constraints.
 
-Music is only one part of the experience, not the main output.
+It is a controlled environment, not a full catalog.
+
+In the future, this approach may extend to other types of content and contexts.
+
+Music is only one possible expression, not the core of the system.
 
 ---
 
