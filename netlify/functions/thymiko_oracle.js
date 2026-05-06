@@ -36,22 +36,63 @@ exports.handler = async function (event) {
     const musicFamily = body.musicFamily || "unknown";
     const musicCondition = body.musicCondition || "unknown";
 
+    // ------------------------------------------------
+    // VA → SYMBOLIC FIELD MAP
+    // ------------------------------------------------
+    // Soglie coerenti con emotion_mapping.dart v1.7.
+    // Questo non è diagnostico: è un campo simbolico
+    // che guida l'oracolo senza lasciare GPT troppo libero.
+    // ------------------------------------------------
+
+    let symbolicField = "";
+
+    if (arousal > 0.15 && valence >= -0.10) {
+      symbolicField =
+        "expansion, ignition, forward motion, emergence, crossing, acceleration";
+    } else if (arousal > 0.15 && valence < -0.10) {
+      symbolicField =
+        "tension, resistance, rupture, collision, instability, sharp movement";
+    } else if (arousal < -0.15 && valence >= 0.15) {
+      symbolicField =
+        "stillness, clarity, openness, suspension, quiet direction, balance";
+    } else if (arousal < -0.15 && valence < -0.10) {
+      symbolicField =
+        "distance, heaviness, fading, withdrawal, unresolved silence, low signal";
+    } else if (arousal < -0.15) {
+      symbolicField =
+        "pause, slowing, suspension, waiting, low movement, quiet threshold";
+    } else if (valence < -0.12) {
+      symbolicField =
+        "resistance, shadow, distance, friction, unresolved direction, blocked path";
+    } else if (valence > 0.12) {
+      symbolicField =
+        "opening, alignment, clarity, gentle movement, direction, emergence";
+    } else {
+      symbolicField =
+        "threshold, ambiguity, listening, transition, hidden direction, neutral signal";
+    }
+
     const prompt = `
-Write one micro-poetic reflection for the Thymiko app.
+Write one micro-oracle phrase for the Thymiko app.
 
 Input signal:
 - valence: ${valence}
 - arousal: ${arousal}
 - music family: ${musicFamily}
 - music condition: ${musicCondition}
+- symbolic field: ${symbolicField}
+
+Important:
+- the symbolic field is the main source of meaning
+- music condition is only supportive context, not the main meaning
 
 Creative direction:
 - write like a minimal symbolic oracle
 - make the phrase simple, memorable, direct, and slightly mysterious
 - speak to the user through their gesture
 - use "your gesture", "your line", or "your trace"
+- stay coherent with the symbolic field
 - reflect the signal instead of comforting the user
-- darker signals may feel tense, fractured, unstable, distant, resistant, or unresolved
 - prefer symbolic statements over poetic scenery
 - allow ambiguity without becoming abstract
 - avoid decorative poetic language
@@ -92,7 +133,7 @@ Hard rules:
             {
               role: "system",
               content:
-                "You write short, safe, poetic reflections for a gesture-based drawing app. Never diagnose or name emotions.",
+                "You write short, safe, symbolic oracle phrases for a gesture-based drawing app. Never diagnose, name emotions, or comfort the user.",
             },
             {
               role: "user",
@@ -100,7 +141,7 @@ Hard rules:
             },
           ],
           temperature: 0.75,
-          max_tokens: 35,
+          max_tokens: 30,
         }),
       }
     );
