@@ -46,14 +46,14 @@ Input signal:
 - music condition: ${musicCondition}
 
 Creative direction:
+- write like a minimal symbolic oracle
+- make the phrase simple, memorable, and slightly mysterious
 - speak to the user through their gesture
 - use "your gesture", "your line", or "your trace"
-- make it feel personal but safely ambiguous
-- reflect the signal, do not comfort the user
-- allow tension, shadow, fracture, noise, distance, or instability
-- darker signals may feel sharp, restless, fragmented, cold, or heavy
-- refer to movement, rhythm, silence, weight, space, or light
-- do not force positivity
+- reflect the signal instead of comforting the user
+- darker signals may feel tense, fractured, distant, unstable, or unresolved
+- avoid decorative poetic language
+- avoid sounding like a quote generator
 - do not name emotions
 - do not infer personality
 - do not explain the signal
@@ -61,7 +61,7 @@ Creative direction:
 Hard rules:
 - max 12 words
 - one sentence only
-- poetic but simple
+- symbolic but readable
 - non-clinical
 - no diagnosis
 - no therapy language
