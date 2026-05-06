@@ -37,21 +37,31 @@ exports.handler = async function (event) {
     const musicCondition = body.musicCondition || "unknown";
 
     const prompt = `
-Write one very short poetic reflection for the Thymiko app.
+Write one micro-poetic reflection for the Thymiko app.
 
-Input:
+Input signal:
 - valence: ${valence}
 - arousal: ${arousal}
 - music family: ${musicFamily}
 - music condition: ${musicCondition}
 
-Rules:
-- max 10 words
+Creative direction:
+- speak to the user through their gesture
+- use "your gesture", "your line", or "your trace"
+- make it feel personal but safely ambiguous
+- refer to movement, trace, rhythm, silence, light, breath, or space
+- do not name emotions
+- do not infer personality
+- do not explain the signal
+
+Hard rules:
+- max 12 words
 - one sentence only
-- soft and poetic
+- poetic but simple
 - non-clinical
+- no diagnosis
+- no therapy language
 - no advice
-- no explanation
 - no quotes
 - no emojis
 - output only the phrase
@@ -71,15 +81,15 @@ Rules:
             {
               role: "system",
               content:
-                "You write minimal poetic reflections for an emotional drawing app.",
+                "You write short, safe, poetic reflections for a gesture-based drawing app. Never diagnose or name emotions.",
             },
             {
               role: "user",
               content: prompt,
             },
           ],
-          temperature: 0.8,
-          max_tokens: 30,
+          temperature: 0.75,
+          max_tokens: 35,
         }),
       }
     );
@@ -99,7 +109,7 @@ Rules:
 
     const phrase =
       data?.choices?.[0]?.message?.content?.trim() ||
-      "A quiet echo follows your gesture.";
+      "Your gesture leaves a quiet trace.";
 
     return {
       statusCode: 200,
