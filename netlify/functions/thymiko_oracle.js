@@ -47,21 +47,28 @@ Input signal:
 
 Creative direction:
 - write like a minimal symbolic oracle
-- make the phrase simple, memorable, and slightly mysterious
+- make the phrase simple, memorable, direct, and slightly mysterious
 - speak to the user through their gesture
 - use "your gesture", "your line", or "your trace"
 - reflect the signal instead of comforting the user
-- darker signals may feel tense, fractured, distant, unstable, or unresolved
+- darker signals may feel tense, fractured, unstable, distant, resistant, or unresolved
+- prefer symbolic statements over poetic scenery
+- allow ambiguity without becoming abstract
 - avoid decorative poetic language
-- avoid sounding like a quote generator
+- avoid sounding spiritual, therapeutic, inspirational, or comforting
+- avoid healing language or redemption arcs
+- avoid “light after darkness” structures
+- avoid quote-generator language
+- avoid generic beauty words like whisper, glow, harmony, serenity, peace
 - do not name emotions
 - do not infer personality
 - do not explain the signal
 
 Hard rules:
-- max 12 words
+- max 10 words
 - one sentence only
 - symbolic but readable
+- concise and memorable
 - non-clinical
 - no diagnosis
 - no therapy language
