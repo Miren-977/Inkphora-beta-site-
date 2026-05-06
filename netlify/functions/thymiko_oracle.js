@@ -49,7 +49,11 @@ Creative direction:
 - speak to the user through their gesture
 - use "your gesture", "your line", or "your trace"
 - make it feel personal but safely ambiguous
-- refer to movement, trace, rhythm, silence, light, breath, or space
+- reflect the signal, do not comfort the user
+- allow tension, shadow, fracture, noise, distance, or instability
+- darker signals may feel sharp, restless, fragmented, cold, or heavy
+- refer to movement, rhythm, silence, weight, space, or light
+- do not force positivity
 - do not name emotions
 - do not infer personality
 - do not explain the signal
